@@ -1,88 +1,226 @@
-# Quantity Measurement App (Microservices Architecture)
+# Quantity Measurement App — Backend Microservices
 
-A robust, full-stack microservices application built with Spring Boot and React. This project demonstrates a scalable cloud architecture featuring dynamic service discovery, centralized API routing, secure JWT authentication paired with Google OAuth2, and a modern frontend.
-
----
-
-## 🚀 Live Production Links
-
-The application is fully containerized and deployed on Render's cloud infrastructure.
-
-| Service | Live URL | Description |
-| :--- | :--- | :--- |
-| **Frontend (React)** | [qma-app.onrender.com](https://quantity-measurement-app-qma.onrender.com) | The main user interface. |
-| **API Gateway** | [api-gateway.onrender.com](https://quantity-measurement-app-api-gateway.onrender.com) | Central entry point and CORS handler. |
-| **Auth Service** | [auth-service.onrender.com](https://quantity-measurement-app-auth-service.onrender.com) | Handles Google OAuth2 & JWT generation. |
-| **Quantity Service** | [quantity-service.onrender.com](https://quantity-measurement-app-quantity-service.onrender.com) | Core business logic and database operations. |
-| **Eureka Server** | [eureka-service.onrender.com](https://quantity-measurement-app-44gd.onrender.com) | Service registry for dynamic routing. |
+A production-ready backend system built using Spring Boot and Spring Cloud Microservices Architecture.  
+The application demonstrates scalable service-oriented architecture with secure authentication, API Gateway routing, service discovery, centralized configuration, and cloud-native deployment practices.
 
 ---
 
-## 📚 API Documentation (Swagger UI)
+## Overview
 
-Interactive REST API documentation is generated automatically using OpenAPI/Springdoc. You can test the live endpoints directly through the browser:
+The backend is designed using independently deployable microservices that communicate through REST APIs and are dynamically managed using Eureka Service Discovery.
 
-* **Auth Service API:** [Swagger UI Link](https://quantity-measurement-app-auth-service.onrender.com/swagger-ui/index.html)
-* **Quantity Service API:** [Swagger UI Link](https://quantity-measurement-app-quantity-service.onrender.com/swagger-ui/index.html)
+Key highlights include:
 
----
-
-## 🛠️ Tech Stack
-
-**Backend:**
-* **Java 21** & **Spring Boot 3.x**
-* **Spring Cloud Gateway:** API routing and edge security.
-* **Spring Cloud Netflix Eureka:** Service discovery and registration.
-* **Spring Security & OAuth2:** Google login integration and stateless JWT authentication.
-* **Spring Data JPA / Hibernate:** ORM and database management.
-* **MySQL:** Managed cloud database (Aiven).
-
-**Frontend:**
-* **React.js** (Bootstrapped with Vite)
-* **React Router:** For frontend navigation and OAuth callback handling.
-
-**DevOps & Deployment:**
-* **Docker:** Containerization for all backend services.
-* **Render:** Cloud hosting for web services and static sites.
+- Microservices Architecture
+- API Gateway Routing
+- JWT-based Authentication
+- Google OAuth2 Login
+- Service Discovery with Eureka
+- Centralized Database Management
+- Dockerized Deployment
+- Cloud Hosting on Render
 
 ---
 
-## 🏗️ System Architecture
+## Live Services
 
-1.  **Client Request:** The user interacts with the React frontend.
-2.  **API Gateway:** All backend requests pass through the Gateway, which resolves CORS and securely routes traffic.
-3.  **Service Discovery:** The Gateway consults the Eureka Server to find the internal IP/port of the requested microservice.
-4.  **Authentication:** * Users log in via Google OAuth2.
-    * The Auth Service issues a custom JWT.
-    * Subsequent requests to protected routes (like the Quantity Service) require this JWT in the Authorization header.
-5.  **Database:** Services communicate with a centralized MySQL database hosted on Aiven.
+| Service | Endpoint |
+|----------|----------|
+| API Gateway | https://quantity-measurement-app-api-gateway.onrender.com |
+| Auth Service | https://quantity-measurement-app-auth-service.onrender.com |
+| Quantity Service | https://quantity-measurement-app-quantity-service.onrender.com |
+| Eureka Server | https://quantity-measurement-app-44gd.onrender.com |
 
 ---
 
-## 💻 Local Development Setup
+## API Documentation
 
-To run this microservices cluster on your local machine:
+### Auth Service Swagger
+https://quantity-measurement-app-auth-service.onrender.com/swagger-ui/index.html
+
+### Quantity Service Swagger
+https://quantity-measurement-app-quantity-service.onrender.com/swagger-ui/index.html
+
+---
+
+## Technology Stack
+
+### Backend
+- Java 21
+- Spring Boot 3.x
+- Spring Cloud Gateway
+- Spring Cloud Netflix Eureka
+- Spring Security
+- OAuth2 Authentication
+- JWT Authentication
+- Spring Data JPA
+- Hibernate
+- MySQL
+
+### DevOps & Deployment
+- Docker
+- Render Cloud Platform
+- GitHub Actions (optional CI/CD)
+
+---
+
+## Architecture Flow
+
+```text
+Client Request
+      │
+      ▼
+API Gateway
+      │
+      ▼
+Eureka Service Discovery
+      │
+ ┌───────────────┬────────────────┐
+ ▼               ▼                ▼
+Auth Service   Quantity Service   Other Services
+      │             |
+      ▼             |
+MySQL Database   <--|
+```
+
+---
+
+## Core Features
+
+### Authentication & Authorization
+- Google OAuth2 Integration
+- JWT Token Generation & Validation
+- Stateless Authentication
+- Secure Route Protection
+
+### Microservices Infrastructure
+- Dynamic Service Discovery
+- API Gateway-based Routing
+- Load-balanced Service Communication
+
+### Database Management
+- MySQL Integration
+- JPA/Hibernate ORM
+- Transaction Management
+
+### Deployment
+- Fully Dockerized Services
+- Cloud Deployment using Render
+- Independent Service Scalability
+
+---
+
+## Local Development Setup
 
 ### Prerequisites
-* Java 21 installed
-* Node.js & npm installed
-* Docker & Docker Compose (optional, for containerized local testing)
-* A local or cloud MySQL database
 
-### Environment Variables
-You must create a `.env` file or provide system environment variables for the backend services. *Never commit these secrets to version control!*
+Ensure the following are installed:
+
+- Java 21
+- Maven
+- MySQL
+- Docker (Optional)
+
+---
+
+## Environment Configuration
+
+Create a `.env` file inside the project root.
 
 ```env
-# Database
-SPRING_DATASOURCE_URL=jdbc:mysql://YOUR_DB_HOST:3306/qma_db
-SPRING_DATASOURCE_USERNAME=root
-SPRING_DATASOURCE_PASSWORD=your_password
+# Eureka
+EUREKA_URL=http://localhost:8761/eureka/
 
-# Security
-JWT_SECRET=your_super_secret_256_bit_string
+# Frontend URL
+FRONTEND_URL=http://localhost:5173
+
+# Database
+DB_URL=jdbc:mysql://localhost:3306/qma_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+DB_USERNAME=root
+DB_PASSWORD=your_password
+
+# JWT
+JWT_SECRET=your_jwt_secret
+
+# Google OAuth2
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8080/login/oauth2/code/google
+```
 
-# Routing
-EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://localhost:8761/eureka/
-FRONTEND_URL=http://localhost:5173
+---
+
+## Running the Services
+
+### Eureka Server
+
+```bash
+mvn spring-boot:run
+```
+
+### API Gateway
+
+```bash
+mvn spring-boot:run
+```
+
+### Auth Service
+
+```bash
+mvn spring-boot:run
+```
+
+### Quantity Service
+
+```bash
+mvn spring-boot:run
+```
+
+---
+
+## Security Implementation
+
+The backend follows secure authentication and authorization practices:
+
+- JWT-based stateless authentication
+- OAuth2 login using Google
+- Protected API routes
+- Token validation filters
+- Secure API Gateway routing
+
+---
+
+## Deployment Strategy
+
+All backend services are containerized using Docker and deployed independently on Render Cloud Platform.
+
+The architecture supports:
+- Independent scaling
+- Fault isolation
+- Cloud-native deployment
+- Simplified maintenance
+
+---
+
+## Repository Structure
+
+```text
+quantity-measurement-app/
+│
+├── api-gateway/
+├── auth-service/
+├── quantity-service/
+├── eureka-server/
+│
+├── docker-compose.yml
+├── README.md
+└── .env
+```
+
+---
+
+## Author
+
+**Deepak Prasad**
+
+Backend Developer | Java & Spring Boot Enthusiast
