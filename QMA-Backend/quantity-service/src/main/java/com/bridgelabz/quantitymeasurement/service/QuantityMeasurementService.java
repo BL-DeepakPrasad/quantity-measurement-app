@@ -12,6 +12,7 @@ import com.bridgelabz.quantitymeasurement.repository.QuantityRecordRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -57,6 +58,7 @@ public class QuantityMeasurementService {
             QuantityRecord record = new QuantityRecord();
             record.setUserEmail(email);
             record.setQuantityType(type);
+            record.setOperation("CONVERT");
             record.setInputValue(request.getValue());
             record.setInputUnit(inputUnitStr);
             record.setTargetUnit(targetUnitStr);
@@ -76,34 +78,47 @@ public class QuantityMeasurementService {
     // ==========================================
     // COMPARE
     // ==========================================
-    public boolean compareQuantities(OperationRequestDTO request) {
+    public boolean compareQuantities(OperationRequestDTO request, String email) {
         String type = request.getQuantityType().toUpperCase();
         IUnit unit1 = resolveUnit(type, request.getFirstUnit().toUpperCase());
         IUnit unit2 = resolveUnit(type, request.getSecondUnit().toUpperCase());
 
         Quantity<IUnit> q1 = Quantity.of(request.getFirstValue(), unit1);
         Quantity<IUnit> q2 = Quantity.of(request.getSecondValue(), unit2);
-        return q1.equals(q2);
+        boolean areEqual = q1.equals(q2);
+
+        QuantityRecord record = new QuantityRecord();
+        record.setUserEmail(email);
+        record.setQuantityType(type);
+        record.setOperation("COMPARE");
+        record.setInputValue(request.getFirstValue());
+        record.setInputUnit(request.getFirstUnit().toUpperCase());
+        record.setSecondValue(request.getSecondValue());
+        record.setSecondUnit(request.getSecondUnit().toUpperCase());
+        record.setResultString(areEqual ? "EQUAL" : "NOT EQUAL");
+        repository.save(record);
+
+        return areEqual;
     }
 
     // ==========================================
     // ADD
     // ==========================================
-    public QuantityResponseDTO addQuantities(OperationRequestDTO request) {
-        return performTwoQuantityOperation(request, "Addition", Quantity::add);
+    public QuantityResponseDTO addQuantities(OperationRequestDTO request, String email) {
+        return performTwoQuantityOperation(request, email, "ADD", Quantity::add);
     }
 
     // ==========================================
     // SUBTRACT
     // ==========================================
-    public QuantityResponseDTO subtractQuantities(OperationRequestDTO request) {
-        return performTwoQuantityOperation(request, "Subtraction", Quantity::subtract);
+    public QuantityResponseDTO subtractQuantities(OperationRequestDTO request, String email) {
+        return performTwoQuantityOperation(request, email, "SUBTRACT", Quantity::subtract);
     }
 
     // ==========================================
     // DIVIDE
     // ==========================================
-    public QuantityResponseDTO divideQuantity(OperationRequestDTO request) {
+    public QuantityResponseDTO divideQuantity(OperationRequestDTO request, String email) {
         String type = request.getQuantityType().toUpperCase();
         String targetStr = request.getTargetUnit() != null ? request.getTargetUnit().toUpperCase() : request.getFirstUnit().toUpperCase();
 
@@ -112,6 +127,18 @@ public class QuantityMeasurementService {
 
         Quantity<IUnit> q = Quantity.of(request.getFirstValue(), inputUnit);
         Quantity<IUnit> result = q.divide(request.getSecondValue(), targetUnit);
+
+        QuantityRecord record = new QuantityRecord();
+        record.setUserEmail(email);
+        record.setQuantityType(type);
+        record.setOperation("DIVIDE");
+        record.setInputValue(request.getFirstValue());
+        record.setInputUnit(request.getFirstUnit().toUpperCase());
+        record.setSecondValue(request.getSecondValue());
+        record.setSecondUnit(request.getFirstUnit().toUpperCase()); // division by a scalar effectively, but we record it
+        record.setTargetUnit(targetStr);
+        record.setResultValue(result.getValue());
+        repository.save(record);
 
         return new QuantityResponseDTO(result.getValue(), targetStr, "Division Successful!");
     }
@@ -124,7 +151,7 @@ public class QuantityMeasurementService {
         Quantity<IUnit> apply(Quantity<IUnit> q1, Quantity<IUnit> q2, IUnit targetUnit);
     }
 
-    private QuantityResponseDTO performTwoQuantityOperation(OperationRequestDTO request, String opName, TwoQuantityOp operation) {
+    private QuantityResponseDTO performTwoQuantityOperation(OperationRequestDTO request, String email, String opName, TwoQuantityOp operation) {
         String type = request.getQuantityType().toUpperCase();
         String targetStr = request.getTargetUnit() != null ? request.getTargetUnit().toUpperCase() : request.getFirstUnit().toUpperCase();
 
@@ -136,6 +163,29 @@ public class QuantityMeasurementService {
         Quantity<IUnit> q2 = Quantity.of(request.getSecondValue(), unit2);
         Quantity<IUnit> result = operation.apply(q1, q2, targetUnit);
 
+        QuantityRecord record = new QuantityRecord();
+        record.setUserEmail(email);
+        record.setQuantityType(type);
+        record.setOperation(opName);
+        record.setInputValue(request.getFirstValue());
+        record.setInputUnit(request.getFirstUnit().toUpperCase());
+        record.setSecondValue(request.getSecondValue());
+        record.setSecondUnit(request.getSecondUnit().toUpperCase());
+        record.setTargetUnit(targetStr);
+        record.setResultValue(result.getValue());
+        repository.save(record);
+
         return new QuantityResponseDTO(result.getValue(), targetStr, opName + " Successful!");
+    }
+
+    // ==========================================
+    // HISTORY
+    // ==========================================
+    public List<QuantityRecord> getHistory(String email) {
+        return repository.findByUserEmailOrderByIdDesc(email);
+    }
+
+    public void clearHistory(String email) {
+        repository.deleteByUserEmail(email);
     }
 }

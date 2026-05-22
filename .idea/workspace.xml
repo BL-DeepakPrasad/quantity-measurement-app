@@ -6,6 +6,43 @@
   <component name="ChangeListManager">
     <list default="true" id="814dd1a3-6702-4625-83fb-6e374e577359" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-Backend/quantity-service/src/main/java/com/bridgelabz/quantitymeasurement/controller/QuantityMeasurementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/QMA-Backend/quantity-service/src/main/java/com/bridgelabz/quantitymeasurement/controller/QuantityMeasurementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-Backend/quantity-service/src/main/java/com/bridgelabz/quantitymeasurement/entity/QuantityRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/QMA-Backend/quantity-service/src/main/java/com/bridgelabz/quantitymeasurement/entity/QuantityRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-Backend/quantity-service/src/main/java/com/bridgelabz/quantitymeasurement/repository/QuantityRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/QMA-Backend/quantity-service/src/main/java/com/bridgelabz/quantitymeasurement/repository/QuantityRecordRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-Backend/quantity-service/src/main/java/com/bridgelabz/quantitymeasurement/service/QuantityMeasurementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/QMA-Backend/quantity-service/src/main/java/com/bridgelabz/quantitymeasurement/service/QuantityMeasurementService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/_metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-DTjSBzeh.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-DTjSBzeh.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-dom-EcJP2q-5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-dom-EcJP2q-5.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-dom_client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-dom_client.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-hot-toast.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-hot-toast.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-router-dom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react-router-dom.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react_jsx-dev-runtime.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/.vite/deps/react_jsx-dev-runtime.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/eslint.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/public/favicon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/public/icons.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/src/App.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/src/api/api.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/src/components/Navbar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/src/components/ProtectedRoute.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/src/context/AuthContext.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/src/main.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/src/pages/DashboardPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/src/pages/LoginPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QMA-FrontEnd/vite.config.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,27 +99,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.QuantitymeasurementApplication.executor": "Run",
-    "JUnit.QuantityTest.executor": "Run",
-    "JUnit.QuantityTest.givenNegativeValue_WhenCreated_ShouldThrowException.executor": "Run",
-    "JUnit.QuantityTest.givenOneTonneAndOneThousandGrams_WhenAdded_ShouldReturn1001Kg.executor": "Run",
-    "JUnit.QuantityTest.givenTwoInchesAndOneInch_WhenSubtracted_ShouldReturnOneInch.executor": "Run",
-    "JUnit.QuantityTest.givenZeroFeetAndZeroFeet_WhenCompared_ShouldReturnEqual.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/uc22-deployment",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/prasa/Downloads/quantitymeasurement/quantitymeasurement",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.QuantitymeasurementApplication.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuantityTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuantityTest.givenNegativeValue_WhenCreated_ShouldThrowException.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuantityTest.givenOneTonneAndOneThousandGrams_WhenAdded_ShouldReturn1001Kg.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuantityTest.givenTwoInchesAndOneInch_WhenSubtracted_ShouldReturnOneInch.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuantityTest.givenZeroFeetAndZeroFeet_WhenCompared_ShouldReturnEqual.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/uc22-deployment&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/prasa/Downloads/quantitymeasurement/quantitymeasurement&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\prasa\Downloads\quantitymeasurement\quantitymeasurement" />
