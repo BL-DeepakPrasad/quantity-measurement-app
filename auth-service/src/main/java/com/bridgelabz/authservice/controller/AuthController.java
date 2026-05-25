@@ -1,78 +1,36 @@
+// AuthController.java
+
 package com.bridgelabz.authservice.controller;
 
 import com.bridgelabz.authservice.dto.*;
-import com.bridgelabz.authservice.entity.User;
-import com.bridgelabz.authservice.repository.UserRepository;
-import com.bridgelabz.authservice.security.JwtUtils;
+import com.bridgelabz.authservice.service.AuthService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtUtils jwtUtils;
+    private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest req) {
+    public ResponseEntity<ApiResponse<String>> registerUser(
+            @Valid @RequestBody RegisterRequest request) {
 
-        if (userRepository.findByEmail(req.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body("Email already exists");
-        }
-
-        User user = new User();
-        user.setName(req.getName());
-        user.setEmail(req.getEmail());
-        user.setPassword(passwordEncoder.encode(req.getPassword()));
-
-        userRepository.save(user);
-
-        return ResponseEntity.ok("User registered");
+        return ResponseEntity.ok(
+                authService.registerUser(request)
+        );
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest req) {
-        try {
+    public ResponseEntity<ApiResponse<AuthResponse>> loginUser(
+            @Valid @RequestBody LoginRequest request) {
 
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            req.getEmail(),
-                            req.getPassword()
-                    )
-            );
-
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = jwtUtils.generateJwtToken(req.getEmail());
-
-            return ResponseEntity.ok(new AuthResponse(token));
-
-        } catch (BadCredentialsException e) {
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Error: Invalid email or password");
-
-        } catch (Exception e) {
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error: An unexpected error occurred during login");
-        }
+        return ResponseEntity.ok(
+                authService.loginUser(request)
+        );
     }
 }

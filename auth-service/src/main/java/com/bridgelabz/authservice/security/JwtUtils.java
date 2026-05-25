@@ -14,21 +14,24 @@ public class JwtUtils {
     @Value("${jwt.secret}")
     private String secret;
 
+    @Value("${jwt.expirationMs}")
+    private long expire;
+
     private Key key() {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    // 🔥 Generate token
+    //generate token
     public String generateJwtToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .setExpiration(new Date(System.currentTimeMillis() + expire))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // 🔥 Extract email
+    // extract mail
     public String extractEmail(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key())
@@ -38,7 +41,7 @@ public class JwtUtils {
                 .getSubject();
     }
 
-    // 🔥 Validate token
+    //validate token
     public boolean validate(String token) {
         try {
             Jwts.parserBuilder()
