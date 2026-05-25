@@ -3,11 +3,14 @@ package com.bridgelabz.quantitymeasurement.controller;
 import com.bridgelabz.quantitymeasurement.dto.OperationRequestDTO;
 import com.bridgelabz.quantitymeasurement.dto.QuantityRequestDTO;
 import com.bridgelabz.quantitymeasurement.dto.QuantityResponseDTO;
+import com.bridgelabz.quantitymeasurement.entity.QuantityRecord;
 import com.bridgelabz.quantitymeasurement.service.QuantityMeasurementService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/quantity")
@@ -57,5 +60,19 @@ public class QuantityMeasurementController {
         QuantityResponseDTO response = service.divideQuantity(request);
         return ResponseEntity.ok(response);
     }
+    // get history
+    @GetMapping("/history")
+    public ResponseEntity<List<QuantityRecord>> getHistory(@RequestHeader("X-User-Email") String email) {
+        List<QuantityRecord> history = service.getHistory(email);
+        return ResponseEntity.ok(history);
+    }
+
+    // clear history
+    @DeleteMapping("/history")
+    public ResponseEntity<QuantityResponseDTO> clearHistory(@RequestHeader("X-User-Email") String email) {
+        service.clearHistory(email);
+        return ResponseEntity.ok(new QuantityResponseDTO(0, "", "History cleared successfully"));
+    }
+
 
 }

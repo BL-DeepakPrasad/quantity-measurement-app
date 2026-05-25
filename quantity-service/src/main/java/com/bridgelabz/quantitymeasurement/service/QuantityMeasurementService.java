@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class QuantityMeasurementService {
@@ -21,10 +23,6 @@ public class QuantityMeasurementService {
     private QuantityRecordRepository repository;
 
 
-
-    // ==========================================
-    // UNIT RESOLUTION — single place to map type + string → IUnit enum
-    // ==========================================
     private IUnit resolveUnit(String type, String unitStr) {
         switch (type) {
             case "LENGTH":      return LengthUnit.valueOf(unitStr);
@@ -36,9 +34,8 @@ public class QuantityMeasurementService {
         }
     }
 
-    // ==========================================
-    // CONVERT
-    // ==========================================
+
+    // convert
     public QuantityResponseDTO convertQuantity(QuantityRequestDTO request, String targetUnitStr, String email) {
         log.info("converting: type={}, value={}, from={}, to={}",
                 request.getQuantityType(), request.getValue(), request.getUnit(), targetUnitStr);
@@ -73,9 +70,8 @@ public class QuantityMeasurementService {
         }
     }
 
-    // ==========================================
-    // COMPARE
-    // ==========================================
+
+    //  compare quantities
     public boolean compareQuantities(OperationRequestDTO request) {
         String type = request.getQuantityType().toUpperCase();
         IUnit unit1 = resolveUnit(type, request.getFirstUnit().toUpperCase());
@@ -86,23 +82,20 @@ public class QuantityMeasurementService {
         return q1.equals(q2);
     }
 
-    // ==========================================
-    // ADD
-    // ==========================================
+
+    // add quantities
     public QuantityResponseDTO addQuantities(OperationRequestDTO request) {
         return performTwoQuantityOperation(request, "Addition", Quantity::add);
     }
 
-    // ==========================================
-    // SUBTRACT
-    // ==========================================
+
+    // subtract quantities
     public QuantityResponseDTO subtractQuantities(OperationRequestDTO request) {
         return performTwoQuantityOperation(request, "Subtraction", Quantity::subtract);
     }
 
-    // ==========================================
-    // DIVIDE
-    // ==========================================
+
+    // divide quantities
     public QuantityResponseDTO divideQuantity(OperationRequestDTO request) {
         String type = request.getQuantityType().toUpperCase();
         String targetStr = request.getTargetUnit() != null ? request.getTargetUnit().toUpperCase() : request.getFirstUnit().toUpperCase();
@@ -116,9 +109,7 @@ public class QuantityMeasurementService {
         return new QuantityResponseDTO(result.getValue(), targetStr, "Division Successful!");
     }
 
-    // ==========================================
-    // SHARED HELPER — eliminates duplication between add & subtract
-    // ==========================================
+
     @FunctionalInterface
     private interface TwoQuantityOp {
         Quantity<IUnit> apply(Quantity<IUnit> q1, Quantity<IUnit> q2, IUnit targetUnit);
@@ -137,5 +128,13 @@ public class QuantityMeasurementService {
         Quantity<IUnit> result = operation.apply(q1, q2, targetUnit);
 
         return new QuantityResponseDTO(result.getValue(), targetStr, opName + " Successful!");
+    }
+
+    public List<QuantityRecord> getHistory(String email) {
+        return repository.findByUserEmailOrderByIdDesc(email);
+    }
+
+    public void clearHistory(String email) {
+        repository.deleteByUserEmail(email);
     }
 }
